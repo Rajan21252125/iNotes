@@ -1,13 +1,26 @@
 const express = require('express');
 const dbConnection = require('./db')
+const cors = require('cors')
 
 dbConnection();
 
 const app = express();
-const PORT = 4000
+app.use(express.json())
+const PORT = 6000
+app.use(cors())
+
+
+
+//routes
+app.use('/api/auth',require('./routes/auth.js'))
+app.use('/api/notes',require('./routes/notes.js'))
 
 app.get('/',(req,res)=>{
+    try {
     res.send('Hello World From Backend')
+    } catch (error) {
+        console.error()
+    }
 })
 
 app.listen(PORT,()=>{
