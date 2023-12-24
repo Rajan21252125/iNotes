@@ -9,7 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+<<<<<<< HEAD
     "bcryptjs": "^2.4.3",
+=======
+    "bcrypt": "^5.1.0",
+>>>>>>> 961bdfcbe3cd0175c861c3bd17a42d4ddbf567b3
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "express-validator": "^7.0.1",

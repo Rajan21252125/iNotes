@@ -6,7 +6,11 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const fetchUser = require("../middleware/fetchuser");
 
+<<<<<<< HEAD
 // @ROUTE 1:   for the user registeration   GET api/auth/createUser/
+=======
+// @ROUTE 1:   for the uswe registeration   GET api/auth/createUser/
+>>>>>>> 961bdfcbe3cd0175c861c3bd17a42d4ddbf567b3
 const success = false;
 const JWT_SECRET = "iNotesMadewithReact";
 router.post(
