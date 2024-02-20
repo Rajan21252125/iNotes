@@ -119,7 +119,6 @@ router.post(
       var token = jwt.sign(data, JWT_SECRET);
       res.json({success:true , token , msg:"successfully logged in"});
     } catch (error) {
-      console.error(error);
       res.status(500).json({ msg: "Some Internal error" });
     }
   }

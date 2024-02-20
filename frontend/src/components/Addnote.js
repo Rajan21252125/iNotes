@@ -4,11 +4,11 @@ import NoteContext from '../context/note/NoteContext';
 export default function Addnote(props) {
   const context = useContext(NoteContext);
   const { addNote } = context;
-  const [note, setNote] = useState({ title: '', description: '', tag: '' });
+  const [note, setNote] = useState({ title: '', description: '', tag: 'General' });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addNote(note.title, note.description);
+    addNote(note.title, note.description, note.tag);
     props.showAlert('Added Successfully', 'success');
     setNote({
       title: '',
@@ -49,7 +49,7 @@ export default function Addnote(props) {
         <label htmlFor="title" className="form-label">
           Title
         </label>
-        <input type="text" className="form-control" id="title" name="title" value={note.title} placeholder="" onChange={handleChange} />
+        <input type="text" className="form-control" id="title" name="title" value={note.title} placeholder="Enter the Title and it should contain more than 3 letter" onChange={handleChange} />
       </div>
       <div className="mb-3">
         <label htmlFor="description" className="form-label">
@@ -60,6 +60,7 @@ export default function Addnote(props) {
           id="description"
           name="description"
           value={note.description}
+          placeholder='Enter the Description and it should contain more than 5 letter'
           rows="1"
           onChange={handleTextareaChange}
         ></textarea>
@@ -68,9 +69,9 @@ export default function Addnote(props) {
         <label htmlFor="tag" className="form-label">
           Tag
         </label>
-        <input type="text" className="form-control" id="tag" name="tag" value={note.tag} placeholder="" onChange={handleChange} />
+        <input type="text" className="form-control" id="tag" name="tag" value={note.tag} placeholder="Enter the Tag" onChange={handleChange} />
       </div>
-      <button disabled={note.title.length<5 || note.description.length<5} type="button" className="btn btn-dark" onClick={handleSubmit}>
+      <button disabled={note.title.length<3 || note.description.length<5} type="button" className="btn btn-dark" onClick={handleSubmit}>
         Add Note
       </button>
     </div>

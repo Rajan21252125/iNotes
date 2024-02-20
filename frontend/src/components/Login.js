@@ -19,7 +19,7 @@ export default function Login({showAlert}) {
                 body: JSON.stringify({ email: credentials.email, password: credentials.password }),
             });
             const json = await response.json();
-            console.log(json);
+            console.log(json.msg);
             setLoader(false)
             if (json.success) {
                 // Save the auth token and redirect
@@ -27,7 +27,7 @@ export default function Login({showAlert}) {
                 navigate('/');
                 showAlert('Logged in successfully', 'success');
             } else {
-                showAlert(json.error, 'danger');
+                showAlert(json.msg, 'danger');
             }
         } catch (error) {
             showAlert("internal server error we will back soon ...", 'danger')
