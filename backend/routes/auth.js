@@ -6,11 +6,9 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const fetchUser = require("../middleware/fetchuser");
 
-<<<<<<< HEAD
+
 // @ROUTE 1:   for the user registeration   GET api/auth/createUser/
-=======
 // @ROUTE 1:   for the uswe registeration   GET api/auth/createUser/
->>>>>>> 961bdfcbe3cd0175c861c3bd17a42d4ddbf567b3
 const success = false;
 const JWT_SECRET = "iNotesMadewithReact";
 router.post(
@@ -30,12 +28,15 @@ router.post(
     const result = validationResult(req);
     // check if there is any error in validation
     if (!result.isEmpty()) {
-      return res.status(400).json({ errors: result.array() });
+      return res.status(400).json({ msg: result.array() });
     }
     // first try if there is not error than create a user and add data which come from the body
     try {
       // check email is presnt already to database or not
       let user = await User.findOne({ email: req.body.email });
+      if (user) {
+        return res.status(409).json({msg: "This email is already registered with us. Please try to login with this email or try to register with another email."})
+      }
       // created a salt to add to password
       const salt = await bcrypt.genSalt(10);
       // hash the password
@@ -57,16 +58,13 @@ router.post(
           id: user.id,
         },
       };
-      var token = jwt.sign(data, JWT_SECRET);
-      res.json({success:true , token });
+      var token = jwt.sign(data, JWT_SECRET , {expiresIn: "1hr"});
+      res.json({success:true , token , msg:"successfully created account"});
       // catch the error if there is any error than show that error
     } catch (error) {
       // check email is presnt already to database or not
-      if (error.code === 11000) {
-        return res.status(409).json({ error: "Email already exists" });
-      }
       console.error(error);
-      res.status(500).json({ error: "Some Internal error" });
+      res.status(500).json({ msg: "Some Internal error" });
     }
     // .then(user => {
     //   res.json(user);
@@ -97,7 +95,7 @@ router.post(
     const result = validationResult(req);
     // check if there is any error in validation
     if (!result.isEmpty()) {
-      return res.status(400).json({ errors: result.array() });
+      return res.status(400).json({ msg: result.array() });
     }
     try {
       const { email, password } = req.body;
@@ -105,13 +103,13 @@ router.post(
       if (!email) {
         return res
           .status(400)
-          .json({ error: "Please Try to login with correct credentials" });
+          .json({ msg: "This email is not registered so please register it or use the correct credential to login" });
       }
       const passCompare = await bcrypt.compare(password, user.password);
       if (!passCompare) {
         return res
           .status(400)
-          .json({ error: "Please Try to login with correct credentials" });
+          .json({ msg: "Please Try to login with correct credentials" });
       }
       const data = {
         user: {
@@ -119,10 +117,10 @@ router.post(
         },
       };
       var token = jwt.sign(data, JWT_SECRET);
-      res.json({success:true , token });
+      res.json({success:true , token , msg:"successfully logged in"});
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: "Some Internal error" });
+      res.status(500).json({ msg: "Some Internal error" });
     }
   }
 );

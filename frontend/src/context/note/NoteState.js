@@ -6,14 +6,6 @@ const NoteState = (props) => {
   const initialNotes = [];
   const [notes, setNotes] = useState(initialNotes);
 
-
-
-
-
-
-
-
-
   //fetch Notes
   const getNote = async () => {
     const response = await fetch(`${host}api/notes/fetchallnots`, {
@@ -28,12 +20,6 @@ const NoteState = (props) => {
     console.log(json);
     setNotes(json);
   };
-
-
-
-
-
-
 
   // Add Notes
   const addNote = async (title, description, tag) => {
@@ -50,10 +36,6 @@ const NoteState = (props) => {
     const json = await response.json();
     setNotes(notes.concat(json))
   }
-
-
-
-
 
   // Delete Notes
   const deleteNote = async(id) => {
@@ -72,10 +54,6 @@ const NoteState = (props) => {
     });
     setNotes(newNotes);
   };
-
-
-
-
 
 
   // Edit Note
@@ -104,11 +82,6 @@ const NoteState = (props) => {
     }
     setNotes(newNotes)
   };
-
-
-
-
-
 
 
   return (

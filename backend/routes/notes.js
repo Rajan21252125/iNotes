@@ -93,6 +93,10 @@ router.put("/updatenote/:id", fetchUser, async (req, res) => {
     res.status(500).json({ error: "Some Internal error" });
   }
 });
+
+
+
+
 // Route 4 : to update the note using DELETE /api/notes/deletenote/:id
 router.delete("/deletenote/:id", fetchUser, async (req, res) => {
   try {

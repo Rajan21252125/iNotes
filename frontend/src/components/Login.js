@@ -1,29 +1,32 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function Login(props) {
+export default function Login({showAlert}) {
     const [credentials, setCredentials] = useState({ email: '', password: '' });
     const navigate = useNavigate();
 
     const handleOnSubmit = async (e) => {
         e.preventDefault();
-        console.log(credentials);
-        const response = await fetch('https://inotes-i3zr.onrender.com/api/auth/login/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email: credentials.email, password: credentials.password }),
-        });
-        const json = await response.json();
-        console.log(json);
-        if (json.success) {
-            // Save the auth token and redirect
-            localStorage.setItem('token', json.token);
-            navigate('/');
-            props.showAlert('Logged in successfully', 'success');
-        } else {
-            props.showAlert('Please Enter a valid Credentials','danger')
+        try {
+            const response = await fetch('https://inotes-i3zr.onrender.com/api/auth/login/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email: credentials.email, password: credentials.password }),
+            });
+            const json = await response.json();
+            console.log(json);
+            if (json.success) {
+                // Save the auth token and redirect
+                localStorage.setItem('token', json.token);
+                navigate('/');
+                showAlert('Logged in successfully', 'success');
+            } else {
+                showAlert(json.error, 'danger');
+            }
+        } catch (error) {
+            
         }
     };
 
