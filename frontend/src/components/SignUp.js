@@ -3,10 +3,12 @@ import { useNavigate } from 'react-router-dom'
 
 export default function SignUp(props) {
   const [credentials, setCredentials] = useState({name:'' , email:'' , password:''})
+  const [show,setShow] = useState(false)
+  const [loader , setLoader] = useState(false)
   const history = useNavigate();
   const handleSubmit = async(e) => {
     e.preventDefault()
-    console.log(credentials);
+    setLoader(true)
     try {
       const response = await fetch('https://inotes-i3zr.onrender.com/api/auth/createUser/', {
         method: 'POST',
@@ -22,11 +24,13 @@ export default function SignUp(props) {
         history('/')
       }
       else{
-        props.showAlert('User Already exist please sign up with different email','danger')
+        props.showAlert(json.error,'danger')
       }
-      console.log(json);
+      setLoader(false)
     } catch (error) {
       console.log(error)
+      props.showAlert("internal server error we will back soon ...", 'danger')
+      setLoader(false)
     }
   }
   const handleChange = (e) => {
@@ -39,12 +43,7 @@ export default function SignUp(props) {
     })
   }
   const toggleShow = () => {
-    var x = document.getElementById('password')
-    if (x.type === 'password') {
-      x.type = 'text'
-    } else {
-      x.type = 'password'
-    }
+    setShow(!show)
   }
   return (
     <div className='container my-4'>
@@ -60,13 +59,13 @@ export default function SignUp(props) {
         </div>
         <div className="mb-3">
           <label htmlFor="password" className="form-label">Password</label>
-          <input type="password" className="form-control" id="password" name="password" value={credentials.password} onChange={handleChange}/>
+          <input type={show ? "text" : "password"} className="form-control" id="password" name="password" value={credentials.password} onChange={handleChange}/>
         </div>
         <div className="mb-3 form-check">
-          <input type="checkbox" className="form-check-input" id="exampleCheck1"/>
-          <label className="form-check-label" htmlFor="exampleCheck1" onClick={toggleShow}>Check me out</label>
+          <input type="checkbox" className="form-check-input" id="exampleCheck1" onClick={toggleShow}/>
+          <label className="form-check-label" htmlFor="exampleCheck1" >Show Password</label>
         </div>
-        <button type="submit" className="btn btn-outline-primary">Sign-Up</button>
+        <button type="submit" className="btn btn-outline-primary">{loader ? "Signing up...." : "Sign-Up"}</button>
       </form>
     </div>
   )

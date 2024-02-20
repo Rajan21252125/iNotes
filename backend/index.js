@@ -6,11 +6,7 @@ dbConnection();
 
 const app = express();
 app.use(express.json())
-<<<<<<< HEAD
-const PORT = 6000
-=======
 const PORT = 4000
->>>>>>> 961bdfcbe3cd0175c861c3bd17a42d4ddbf567b3
 app.use(cors())
 
 
